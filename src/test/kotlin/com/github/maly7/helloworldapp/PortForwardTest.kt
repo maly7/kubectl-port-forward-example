@@ -38,12 +38,13 @@ class PortForwardTest {
         }.start()
 
         println("Forwarding on port ${localPort}!")
+
+        Thread.sleep(30000) // Open http://localhost/$port in browser or curl now works, but causes the following assertion to fail
+
         await()
-            .pollDelay(10, TimeUnit.SECONDS)
+            .pollDelay(5, TimeUnit.SECONDS)
             .atMost(30, TimeUnit.SECONDS)
             .until(this::fetchHello, equalTo("Hello, world!"))
-
-        println("Debug here!")
 
         portForward.shutdown()
     }
